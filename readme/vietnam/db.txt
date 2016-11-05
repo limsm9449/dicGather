@@ -1,0 +1,6 @@
+CREATE DATABASE viethan;
+create user 'limsm9449'@'localhost' identified by 'jambo75';
+grant select, insert, update, delete, create, drop, alter on viethan.* to 'limsm9449'@'localhost';
+show grants for 'limsm9449'@'localhost';
+FLUSH PRIVILEGES;
+

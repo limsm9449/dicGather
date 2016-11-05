@@ -1,0 +1,201 @@
++ dic
+
+	UPDATE dic SET DEL_FLAG = 'N';
+	
+	UPDATE dic SET DEL_FLAG = 'Y'
+	where  kind = 'F'
+	and    word COLLATE utf8_bin like '-%' or word COLLATE utf8_bin like '%-' or word COLLATE utf8_bin like '%.%' or word COLLATE utf8_bin like '%&%' or word COLLATE utf8_bin like '%$%' or
+	        word COLLATE utf8_bin like '%"%' or word COLLATE utf8_bin like '%(%' or word COLLATE utf8_bin like '%''%' OR  word COLLATE utf8_bin like '…%' OR
+			word COLLATE utf8_bin like '%A%' or word COLLATE utf8_bin like '%B%' or word COLLATE utf8_bin like '%C%' or word COLLATE utf8_bin like '%D%' or word COLLATE utf8_bin like '%E%' or
+			word COLLATE utf8_bin like '%F%' or word COLLATE utf8_bin like '%G%' or word COLLATE utf8_bin like '%H%' or word COLLATE utf8_bin like '%I%' or word COLLATE utf8_bin like '%J%' or
+			word COLLATE utf8_bin like '%K%' or word COLLATE utf8_bin like '%L%' or word COLLATE utf8_bin like '%M%' or word COLLATE utf8_bin like '%N%' or word COLLATE utf8_bin like '%O%' or
+			word COLLATE utf8_bin like '%P%' or word COLLATE utf8_bin like '%Q%' or word COLLATE utf8_bin like '%R%' or word COLLATE utf8_bin like '%S%' or word COLLATE utf8_bin like '%T%' or
+			word COLLATE utf8_bin like '%U%' or word COLLATE utf8_bin like '%V%' or word COLLATE utf8_bin like '%W%' or word COLLATE utf8_bin like '%X%' or word COLLATE utf8_bin like '%Y%' or
+		    word COLLATE utf8_bin like '%Z%' OR
+			word COLLATE utf8_bin like '%1%' or word COLLATE utf8_bin like '%2%' or word COLLATE utf8_bin like '%3%' or word COLLATE utf8_bin like '%4%' or word COLLATE utf8_bin like '%5%' or
+			word COLLATE utf8_bin like '%6%' or word COLLATE utf8_bin like '%7%' or word COLLATE utf8_bin like '%8%' or word COLLATE utf8_bin like '%9%' or word COLLATE utf8_bin like '%0%'
+	;
+
+	update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and spelling = '*' and type <> '[명사]' and type <> '[동사]' and type <> '';
+
+	update dic set del_flag = 'Y'  where kind = 'F' and del_flag = 'N' and word > 'zzz' ;
+	 
+	UPDATE DIC SET WORD_FLAG = 'Y' WHERE kind = 'F' and SPELLING != '*';
+	
+	UPDATE DIC SET WORD_FLAG = 'Y' WHERE kind = 'F' and (KIND,WORD) IN (SELECT DISTINCT 'F', WORD FROM DIC_DAUM_VOCABULARY);
+
+	UPDATE dic SET DEL_FLAG = 'Y'
+	where  kind = 'H'
+	and    word COLLATE utf8_bin like '-%' or word COLLATE utf8_bin like '%-' or word COLLATE utf8_bin like '%.%' or word COLLATE utf8_bin like '%&%' or word COLLATE utf8_bin like '%$%' or
+	        word COLLATE utf8_bin like '"%' or word COLLATE utf8_bin like '(%' or word COLLATE utf8_bin like '''%' OR  word COLLATE utf8_bin like '…%' OR
+			word COLLATE utf8_bin like '%A%' or word COLLATE utf8_bin like '%B%' or word COLLATE utf8_bin like '%C%' or word COLLATE utf8_bin like '%D%' or word COLLATE utf8_bin like '%E%' or
+			word COLLATE utf8_bin like '%F%' or word COLLATE utf8_bin like '%G%' or word COLLATE utf8_bin like '%H%' or word COLLATE utf8_bin like '%I%' or word COLLATE utf8_bin like '%J%' or
+			word COLLATE utf8_bin like '%K%' or word COLLATE utf8_bin like '%L%' or word COLLATE utf8_bin like '%M%' or word COLLATE utf8_bin like '%N%' or word COLLATE utf8_bin like '%O%' or
+			word COLLATE utf8_bin like '%P%' or word COLLATE utf8_bin like '%Q%' or word COLLATE utf8_bin like '%R%' or word COLLATE utf8_bin like '%S%' or word COLLATE utf8_bin like '%T%' or
+			word COLLATE utf8_bin like '%U%' or word COLLATE utf8_bin like '%V%' or word COLLATE utf8_bin like '%W%' or word COLLATE utf8_bin like '%X%' or word COLLATE utf8_bin like '%Y%' or
+		    word COLLATE utf8_bin like '%Z%'
+	;
+
+	UPDATE dic SET DEL_FLAG = 'Y'
+	where  DEL_FLAG = 'N' and kind = 'H'
+	and    (word COLLATE utf8_bin like '%다' or word COLLATE utf8_bin like '%?' or word like '% %') 
+	;
+	 
+	update dic set del_flag = 'Y' where DEL_FLAG = 'N' and kind = 'H' and type != '';
+	
+	UPDATE DIC SET DEL_FLAG= 'Y' WHERE SEQ IN ('701677','785018','1199826','1089285','1202324','1219228','1122195','1150192','1231322','1190929','1266941');
+	
+	INSERT INTO _DIC SELECT MAX(SEQ) FROM DIC WHERE KIND = 'F' GROUP BY WORD HAVING COUNT(*) > 1;
+	UPDATE DIC A SET DEL_FLAG = 'Y' WHERE SEQ IN (SELECT SEQ FROM _DIC) AND DEL_FLAG = 'N';
+
+	UPDATE DIC set spelling = '' WHERE SPELLING = '*';
+
+SELECT SEQ, SEQ ENTRY_ID, KIND, WORD, MEAN, SPELLING, HANMUN, TYPE, TENSE, ORD
+FROM (
+SELECT SEQ, SEQ ENTRY_ID, KIND, WORD, MEAN, SPELLING, HANMUN, TYPE, replace(replace(TENSE,',',' , '),'^',' ^ ') TENSE, ORD, WORD_FLAG, RAND() RD
+  FROM dic 
+  WHERE DEL_FLAG = 'N'
+  ORDER BY KIND DESC, WORD_FLAG DESC, RD) A
+LIMIT 200000;             
+
+
+SELECT A.SEQ, B.SEQ, A.TYPE, A.MEAN, A.NUM
+  FROM dic_mean A, DIC B
+ WHERE A.ENTRY_ID = B.ENTRY_ID ;
+ 
+ + dic_mean_sample
+	UPDATE DIC_MEAN_SAMPLE A SET SAMPLE_SEQ = (SELECT MAX(SEQ) FROM DIC_SAMPLE WHERE LANG_FOREIGN = A.LANG_FOREIGN) WHERE SAMPLE_SEQ = -1;
+  
+SELECT A.SEQ, B.SEQ, A.SAMPLE_SEQ   
+  FROM dic_mean_sample A, DIC_MEAN B
+ WHERE A.ENTRY_ID = B.ENTRY_ID
+   AND A.NUM = B.NUM;
+
++ dic_sample
+	update dic_sample set del_flag = 'N', mean_sample_flag = 'N';
+	
+	update dic_sample 
+	set del_flag = 'Y'
+	where lang_han like '%a%' or lang_han  like '%b%' or lang_han  like '%c%' or lang_han  like '%d%' or lang_han  like '%e%' or
+			lang_han  like '%f%' or lang_han  like '%g%' or lang_han  like '%h%' or lang_han  like '%i%' or lang_han  like '%j%' or
+			lang_han  like '%k%' or lang_han  like '%l%' or lang_han  like '%m%' or lang_han  like '%n%' or lang_han  like '%o%' or
+			lang_han  like '%p%' or lang_han  like '%q%' or lang_han  like '%r%' or lang_han  like '%s%' or lang_han  like '%t%' or
+			lang_han  like '%u%' or lang_han  like '%v%' or lang_han  like '%w%' or lang_han  like '%x%' or lang_han  like '%y%' or
+		    lang_han  like '%z%'
+	;
+	
+	update dic_sample 
+	set del_flag = 'Y' where mean_sample_flag = 'N'
+	and lang_han not like '%다'
+	and lang_han not like '%다.'
+	and lang_han not like '%?'
+	and lang_han not like '%라'
+	and lang_han not like '%요'
+	and lang_han not like '%요.';
+	
+	update dic_sample set mean_sample_flag = 'Y' where seq in ( select sample_seq from dic_mean_sample);
+	
+	delete from _dic_sample;
+
+	insert into _dic_sample
+	select SEQ
+	from (select SEQ, LANG_FOREIGN, LANG_HAN, mean_sample_flag, rand() rd from dic_sample where del_flag = 'N' ) a
+	order by mean_sample_flag desc, rd
+	limit 150000;
+	
+select SEQ, LANG_FOREIGN, LANG_HAN, ord
+from dic_sample 
+where seq in ( select seq from _dic_sample);
+    
+    
++ DAUM 사전 ----------------------------- 
+SELECT if(KIND = 'TOEIC','W01',
+				if(KIND = 'TOEFL','W02',
+					if(KIND = '초중고영어','W03',
+						if(KIND = '수능영어','W04',
+							if(KIND = 'NEAT/NEPT','W05',
+								if(KIND = 'TEPS','W06',
+									if(KIND = '회화','W07',
+										if(KIND = '기타','W08','-')))))))) CODE_GROUP, concat('W',CATEGORY_ID) CODE, CATEGORY_NAME CODE_NAME, UPD_DATE, 
+	   (SELECT count(distinct c.entry_id)
+		FROM DIC_DAUM_VOCABULARY b join dic c on (b.word = c.word)
+		WHERE category_id = a.category_id
+		and c.del_flag = 'N' ) WORD_CNT, 
+		0 S_CNT, IF(BOOKMARK_CNT IS NULL, '1', BOOKMARK_CNT) BOOKMARK_CNT
+  FROM DIC_DAUM_CATEGORY a
+where word_cnt > 10;  
+
+SELECT distinct concat('W',CATEGORY_ID) as code, b.seq ENTRY_ID
+FROM DIC_DAUM_VOCABULARY a join dic b on (a.word = b.word)
+WHERE category_id in (select category_id from DIC_DAUM_CATEGORY where word_cnt > 10)
+and b.del_flag = 'N'
+union all
+select concat('W00_1_',if(((ROWNUM - 1) div 100) + 1 < 10,'0',''), ((ROWNUM - 1) div 100) + 1), ENTRY_ID
+from (
+	SELECT @RNUM1 := @RNUM1 + 1 AS ROWNUM, t.* FROM (
+		select * from (
+			SELECT distinct a.word, b.seq entry_id 
+			FROM   (SELECT distinct WORD, COUNT(*) cnt FROM dic_daum_vocabulary 
+					  GROUP  BY WORD having count(*) > 1) a join dic b on (a.word = b.word)
+			WHERE  b.DEL_FLAG = 'N' and b.spelling != ''
+			order  by a.cnt desc
+			LIMIT 5000 ) a
+        order by rand() ) t, ( SELECT @RNUM1 := 0 ) R
+	) mas
+union all
+select concat('W00_2_',if(((ROWNUM - 1) div 100) + 1 < 10,'0',''), ((ROWNUM - 1) div 100) + 1), ENTRY_ID
+from (
+	SELECT @RNUM2 := @RNUM2 + 1 AS ROWNUM, t.* FROM (
+		select * from (
+			SELECT distinct a.word, b.seq entry_id 
+			FROM   (SELECT distinct WORD, COUNT(*) cnt FROM dic_daum_vocabulary 
+					 where category_id in (select category_id from dic_daum_category where kind = '초중고영어')
+					  GROUP  BY WORD having count(*) > 1) a join dic b on (a.word = b.word)
+			WHERE  b.DEL_FLAG = 'N' and b.spelling != ''
+			order  by a.cnt desc
+			LIMIT 2500 ) a
+        order by rand() ) t, ( SELECT @RNUM2 := 0 ) R
+	) mas
+union all
+select concat('W00_3_',if(((ROWNUM - 1) div 100) + 1 < 10,'0',''), ((ROWNUM - 1) div 100) + 1), ENTRY_ID
+from (
+	SELECT @RNUM3 := @RNUM3 + 1 AS ROWNUM, t.* FROM (
+		select * from (
+			SELECT distinct a.word, b.seq entry_id 
+			FROM   (SELECT distinct WORD, COUNT(*) cnt FROM dic_daum_vocabulary 
+					 where category_id in (select category_id from dic_daum_category where kind = '수능영어')
+					  GROUP  BY WORD having count(*) > 1) a join dic b on (a.word = b.word)
+			WHERE  b.DEL_FLAG = 'N' and b.spelling != ''
+			order  by a.cnt desc
+			LIMIT 5000 ) a
+        order by rand() ) t, ( SELECT @RNUM3 := 0 ) R
+	) mas
+union all
+select concat('W00_4_',if(((ROWNUM - 1) div 100) + 1 < 10,'0',''), ((ROWNUM - 1) div 100) + 1), ENTRY_ID
+from (
+	SELECT @RNUM4 := @RNUM4 + 1 AS ROWNUM, t.* FROM (
+		select * from (
+			SELECT distinct a.word, b.seq  entry_id
+			FROM   (SELECT distinct WORD, COUNT(*) cnt FROM dic_daum_vocabulary 
+					 where category_id in (select category_id from dic_daum_category where kind = 'TOEIC')
+					  GROUP  BY WORD having count(*) > 1) a join dic b on (a.word = b.word)
+			WHERE  b.DEL_FLAG = 'N' and b.spelling != ''
+			order  by a.cnt desc
+			LIMIT 5000 ) a
+        order by rand() ) t, ( SELECT @RNUM4 := 0 ) R
+	) mas
+union all
+select concat('W00_5_',if(((ROWNUM - 1) div 100) + 1 < 10,'0',''), ((ROWNUM - 1) div 100) + 1), ENTRY_ID
+from (
+	SELECT @RNUM5 := @RNUM5 + 1 AS ROWNUM, t.* FROM (
+		select * from (
+			SELECT distinct a.word, b.seq entry_id
+			FROM   (SELECT distinct WORD, COUNT(*) cnt FROM dic_daum_vocabulary 
+					 where category_id in (select category_id from dic_daum_category where kind = 'TOEFL')
+					  GROUP  BY WORD having count(*) > 1) a join dic b on (a.word = b.word)
+			WHERE  b.DEL_FLAG = 'N' and b.spelling != ''
+			order  by a.cnt desc
+			LIMIT 5000 ) a
+        order by rand() ) t, ( SELECT @RNUM5 := 0 ) R
+	) mas
+;

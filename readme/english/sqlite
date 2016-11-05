@@ -1,0 +1,28 @@
+insert into dic ( seq, entry_id, kind, word, mean, spelling, hanmun, type, tense, ord) 
+select seq, entry_id, kind, word, mean, spelling, hanmun, type, tense, ord from _dic_1;
+
+insert into dic_idiom ( seq, entry_id, kind, word, mean, ord) 
+select seq, entry_id, kind, word, mean, ord from _dic_2
+
+insert into dic_code ( seq, code_group, code, code_name, upd_date, w_cnt, s_cnt, bookmark_cnt) 
+select seq, code_group, code, code_name,'', 0,0,0 from _dic_code;
+
+insert into dic_code ( seq, code_group, code, code_name, upd_date, w_cnt, s_cnt, bookmark_cnt) 
+select seq, code_group, 'W'||code, code_name, upd_date, 0, 0, bookmark_cnt from _dic_daum_category;
+
+insert into dic_category_sent (seq, code, sentence1, sentence2)
+select seq, code, sentence1, sentence2 from _dic_category_sent;
+
+insert into dic_category_word (seq, code, entry_id)
+select seq, 'W'||category_id, entry_id from _dic_daum_vocabulary;
+
+insert into dic_sample (seq, sentence1, sentence2)
+select seq, lang_foreign, lang_han from _dic_sample;
+
+update dic_code 
+set w_cnt = (select count(distinct entry_id) from dic_category_word where code =  dic_code.code)
+where code_group like 'W%' and code like 'W%';
+
+update dic_code 
+set s_cnt = (select count(*) from dic_category_sent where code =  dic_code.code)
+where code_group like 'S%';

@@ -1,0 +1,140 @@
+delete from dic;
+delete from dic_mean;
+delete from dic_mean_sample;
+delete from dic_sample;
+delete from t_finded_dic;
+delete from t_find_dic;
+
+select * from t_finded_dic;
+select * from t_find_dic;
+select * from dic;
+select * from dic_mean;
+select * from dic_mean_sample;
+select * from t_sample;
+select * from dic_sample;
+
+
+DROP TABLE `dic`;
+DROP TABLE `dic_mean`;
+DROP TABLE `dic_mean_sample`;
+DROP TABLE `dic_word_sample`;
+DROP TABLE `dic_sample`;
+DROP TABLE `t_finded_dic`;
+DROP TABLE `t_find_dic`;
+DROP TABLE `t_sample`;
+
+DROP TABLE `dic`;
+CREATE TABLE `dic` (
+  `SEQ` int(11) NOT NULL AUTO_INCREMENT,
+  `ENTRY_ID` varchar(50) DEFAULT NULL,
+  `KIND` char(2) DEFAULT NULL,
+  `WORD` varchar(100) DEFAULT NULL,
+  `MEAN` varchar(500) DEFAULT NULL,
+  `SPELLING` varchar(50) DEFAULT NULL,
+  `TYPE` varchar(50) DEFAULT NULL,
+  `TENSE` varchar(200) DEFAULT NULL,
+  `HANMUN` varchar(50) DEFAULT NULL,
+  `ORD` int(11) DEFAULT NULL,
+  `DEL_FLAG` char(1) DEFAULT 'N',
+  `WORD_FLAG` char(1) default 'N',
+  PRIMARY KEY (`SEQ`),
+  KEY `DIC_IDX1` (`ENTRY_ID`),
+  KEY `DIC_IDX2` (`KIND`,`WORD`),
+  KEY `DIC_IDX3` (`WORD`)
+) ENGINE=InnoDB AUTO_INCREMENT=62768 DEFAULT CHARSET=utf8;
+
+DROP TABLE `dic_mean`;
+CREATE TABLE `dic_mean` (
+  `SEQ` int(11) NOT NULL AUTO_INCREMENT,
+  `ENTRY_ID` varchar(50) DEFAULT NULL,
+  `NUM` int(11),
+  `TYPE` varchar(50) DEFAULT NULL,
+  `MEAN` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`SEQ`),
+  KEY `DIC_MEAN_IDX1` (`ENTRY_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=130910 DEFAULT CHARSET=utf8;
+
+DROP TABLE `dic_mean_sample`;
+CREATE TABLE `dic_mean_sample` (
+  `SEQ` int(11) NOT NULL AUTO_INCREMENT,
+  `ENTRY_ID` varchar(50) DEFAULT NULL,
+  `NUM` int(11),
+  `LANG_HAN` varchar(500) DEFAULT NULL,
+  `LANG_FOREIGN` varchar(500) DEFAULT NULL,
+  `SAMPLE_SEQ` int(11),
+  PRIMARY KEY (`SEQ`),
+  KEY `DIC_MEAN_SAMPLE_IDX1` (`ENTRY_ID`,`NUM`)
+) ENGINE=InnoDB AUTO_INCREMENT=158935 DEFAULT CHARSET=utf8;
+
+DROP TABLE `dic_sample`;
+CREATE TABLE `dic_sample` (
+  `SEQ` int(11) NOT NULL AUTO_INCREMENT,
+  `LANG_HAN` varchar(500) DEFAULT NULL,
+  `LANG_FOREIGN` varchar(500) DEFAULT NULL,
+  `FLAG` char(1) DEFAULT 'N',
+  `DEL_FLAG` char(1) DEFAULT 'N',
+  PRIMARY KEY (`SEQ`),
+  KEY `DIC_SAMPLE_IDX1` (`LANG_FOREIGN`(250))
+) ENGINE=InnoDB AUTO_INCREMENT=114445 DEFAULT CHARSET=utf8;
+
+
+------------------------
+
+CREATE TABLE `t_finded_dic` (
+  `SEQ` int(11) NOT NULL AUTO_INCREMENT,
+  `KIND` char(2) DEFAULT NULL,
+  `WORD` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`SEQ`)
+) ENGINE=InnoDB AUTO_INCREMENT=62768 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `t_find_dic` (
+  `SEQ` int(11) NOT NULL AUTO_INCREMENT,
+  `KIND` char(2) DEFAULT NULL,
+  `WORD` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`SEQ`)
+) ENGINE=InnoDB AUTO_INCREMENT=62768 DEFAULT CHARSET=utf8;
+
+DROP TABLE `t_sample`;
+CREATE TABLE `t_sample` (
+  `SEQ` int(11) NOT NULL AUTO_INCREMENT,
+  `LANG_HAN` varchar(500) DEFAULT NULL,
+  `LANG_FOREIGN` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`SEQ`),
+  KEY `T_SAMPLE_IDX1` (`LANG_FOREIGN`(250))
+) ENGINE=InnoDB AUTO_INCREMENT=114445 DEFAULT CHARSET=utf8;
+
+DROP TABLE `dic_daum_category`;
+CREATE TABLE `dic_daum_category` (
+  `SEQ` int(11) NOT NULL AUTO_INCREMENT,
+  `CATEGORY_ID` varchar(100) DEFAULT NULL,
+  `CATEGORY_NAME` varchar(300) DEFAULT NULL,
+  `KIND` varchar(10) DEFAULT NULL,
+  `WORD_CNT` varchar(10) DEFAULT NULL,
+  `UPD_DATE` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`SEQ`)
+) ENGINE=InnoDB AUTO_INCREMENT=114445 DEFAULT CHARSET=utf8;
+
+DROP TABLE `dic_daum_vocabulary`;
+CREATE TABLE `dic_daum_vocabulary` (
+  `SEQ` int(11) NOT NULL AUTO_INCREMENT,
+  `CATEGORY_ID` varchar(100) DEFAULT NULL,
+  `WORD` varchar(100) DEFAULT NULL,
+  `MEAN` varchar(500) DEFAULT NULL,
+  `SPELLING` varchar(4000) DEFAULT NULL,
+  `SAMPLES` varchar(4000) DEFAULT NULL,
+  `MEMOS` varchar(4000) DEFAULT NULL,
+  PRIMARY KEY (`SEQ`),
+  KEY `DIC_DAUM_IDX1` (`CATEGORY_ID`(100))
+) ENGINE=InnoDB AUTO_INCREMENT=114445 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `dic_tense` (
+  `WORD_TENSE` varchar(50) DEFAULT NULL,
+  `WORD` varchar(50) DEFAULT NULL,
+  KEY `DIC_DAUM_IDX1` (`WORD_TENSE`(50))
+) ENGINE=InnoDB AUTO_INCREMENT=158935 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `_dic_sample` (
+  `SEQ` int(11) 
+  KEY `_dic_sample_IDX1` (SEQ)
+) ENGINE=InnoDB AUTO_INCREMENT=158935 DEFAULT CHARSET=utf8;

@@ -1,0 +1,66 @@
+select * from t_finded_dic;
+
+select * from t_find_dic order by word;
+select * from t_find_dic where word in ('`ll','`m','``serious','—and','多包係','耳枋','대항시키다','셶e','주로','￡s');
+delete from t_find_dic where word in ('`ll','`m','``serious','—and','多包係','耳枋','대항시키다','셶e','주로','￡s');
+
+select * from dic where word like '%absolutely%';
+select * from dic where entry_id = '716e969903b54742ac8057f56a6e15b3';
+
+select * from dic_mean;
+select * from dic_mean where entry_id = 'b492fcb2ea004c3db7644a90551f8270';
+
+select * from dic_mean_sample ;
+select * from dic_mean_sample where entry_id = '716e969903b54742ac8057f56a6e15b3';
+
+select * from dic_sample;
+
+select * from t_sample;
+
+insert into t_find_dic(kind, word) values ('F', 'love');
+
+SELECT DISTINCT KIND, WORD FROM T_FIND_DIC ORDER BY KIND DESC, WORD
+
+
+select (select count(*) from dic) dic_cnt,
+       (select count(*) from dic where kind = 'F') dic_f_cnt,
+       (select count(*) from dic where kind = 'H') dic_h_cnt,
+       (select count(*) from dic_mean) dic_mean_cnt, 
+       (select count(*) from dic_mean_sample) dic_mean_sample_cnt, 
+       (select count(*) from dic_word_sample) dic_word_sample_cnt, 
+       (select count(*) from dic_SAMPLE) dic_SAMPLE_cnt, 
+       (select count(*) from T_find_dic where kind = 'F') T_find_dic_f_cnt, 
+       (select count(*) from T_find_dic where kind = 'H') T_find_dic_h_cnt, 
+       (select count(*) from T_finded_dic) T_finded_dic_cnt,        
+       (select count(*) from T_SAMPLE) T_SAMPLE_cnt;
+
+select count(*) from dic;
+select count(*) from dic where kind = 'VH';
+select count(*) from dic where kind = 'HV';
+select count(*) from dic where flag = 'N';
+select count(*) from dic_mean;
+select count(*) from dic_mean_sample;
+select count(*) from dic_word_sample;
+select count(*) from dic_SAMPLE;
+select count(*) from T_find_dic where kind = 'VH';
+select count(*) from T_find_dic where kind = 'HV';
+select count(*) from T_finded_dic;       
+select count(*) from T_SAMPLE;
+       
+
+select * 
+from dic a, dic_mean b, dic_mean_sample c
+where a.entry_id = '1393538'
+and b.entry_id = c.entry_id
+and b.seq = c.seq
+and a.entry_id = b.entry_id;
+
+-- 예제중 빈것은 삭제
+select * from dic_SAMPLE where lang_viet is null or lang_viet = '';
+select * from dic_SAMPLE where lang_han is null or lang_han = '';
+delete from dic_SAMPLE where lang_viet is null or lang_viet = '';
+delete from dic_SAMPLE where lang_han is null or lang_han = '';
+
+-- 한문이 널인경우 공백처리
+select * from dic where hanmun is null;
+update dic set hanmun = ' ' where hanmun is null;

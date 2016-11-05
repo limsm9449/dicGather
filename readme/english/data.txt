@@ -1,0 +1,36 @@
+delete from dic;
+delete from dic_mean;
+delete from dic_mean_sample;
+delete from dic_sample;
+delete from t_finded_dic;
+delete from t_find_dic;
+delete from t_sample;
+
+insert into t_find_dic(kind, word) values ('F', 'foreign');
+insert into t_find_dic(kind, word) values ('F', 'love');
+insert into t_find_dic(kind, word) values ('F', 'cover');
+insert into t_find_dic(kind, word) values ('F', 'run');
+
+
+/* 중복 체크 */
+select entry_id, num, max(seq) from dic_mean 
+group by entry_id, num
+having count(*) > 1;
+
+/* sqlite */
+select SEQ, ENTRY_ID, KIND, WORD, MEAN, SPELLING, HANMUN, TYPE, TENSE, ORD from dic;
+
+select distinct a.seq, b.seq, a.type, a.mean, a.num ord
+from dic_mean a, dic b
+where b.entry_id = a.entry_id
+order by 2,5;
+
+select a.seq, b.seq, a.sample_seq, a.entry_id
+from dic_mean_sample a, dic_mean b
+where b.entry_id = a.entry_id
+and b.num = a.num
+and a.seq = 159170
+order by 1,2;
+
+select seq, lang_foreign, lang_han
+from dic_sample;
