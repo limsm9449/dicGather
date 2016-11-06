@@ -1,63 +1,52 @@
 + dic
 
-	UPDATE dic SET DEL_FLAG = 'N';
-	
-	UPDATE dic SET DEL_FLAG = 'Y'
-	where  kind = 'F'
-	and    word COLLATE utf8_bin like '-%' or word COLLATE utf8_bin like '%-' or word COLLATE utf8_bin like '%.%' or word COLLATE utf8_bin like '%&%' or word COLLATE utf8_bin like '%$%' or
-	        word COLLATE utf8_bin like '%"%' or word COLLATE utf8_bin like '%(%' or word COLLATE utf8_bin like '%''%' OR  word COLLATE utf8_bin like '…%' OR
-			word COLLATE utf8_bin like '%A%' or word COLLATE utf8_bin like '%B%' or word COLLATE utf8_bin like '%C%' or word COLLATE utf8_bin like '%D%' or word COLLATE utf8_bin like '%E%' or
-			word COLLATE utf8_bin like '%F%' or word COLLATE utf8_bin like '%G%' or word COLLATE utf8_bin like '%H%' or word COLLATE utf8_bin like '%I%' or word COLLATE utf8_bin like '%J%' or
-			word COLLATE utf8_bin like '%K%' or word COLLATE utf8_bin like '%L%' or word COLLATE utf8_bin like '%M%' or word COLLATE utf8_bin like '%N%' or word COLLATE utf8_bin like '%O%' or
-			word COLLATE utf8_bin like '%P%' or word COLLATE utf8_bin like '%Q%' or word COLLATE utf8_bin like '%R%' or word COLLATE utf8_bin like '%S%' or word COLLATE utf8_bin like '%T%' or
-			word COLLATE utf8_bin like '%U%' or word COLLATE utf8_bin like '%V%' or word COLLATE utf8_bin like '%W%' or word COLLATE utf8_bin like '%X%' or word COLLATE utf8_bin like '%Y%' or
-		    word COLLATE utf8_bin like '%Z%' OR
-			word COLLATE utf8_bin like '%1%' or word COLLATE utf8_bin like '%2%' or word COLLATE utf8_bin like '%3%' or word COLLATE utf8_bin like '%4%' or word COLLATE utf8_bin like '%5%' or
-			word COLLATE utf8_bin like '%6%' or word COLLATE utf8_bin like '%7%' or word COLLATE utf8_bin like '%8%' or word COLLATE utf8_bin like '%9%' or word COLLATE utf8_bin like '%0%'
-	;
+select *  from dic
+where kind = 'H' and 
+word like '%\%%';
+;
 
-	update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and spelling = '*' and type <> '[명사]' and type <> '[동사]' and type <> '';
+update dic set del_flag = 'N' where kind = 'F' ;
+update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and substr(word,1,1) in ('-','''','(','"','1','2','3','4','5','6','7','8','9','0','$','.','%','&','[','/',':');
+update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and (word like '%0%' or word like '%"%' or word like '%&%' or word like '%$%' or word like '%''%' or 
+				word like '%(%' or word like '%,%' or word like '%.%' or word like '%/%' or word like '%?%'or word like '%[%' or word like '%\%%' or
+                word like '%''%' or word like '%.%' or word like '%τ%' or word like '%‘%' or word like '%…%' or word like '%&%' or word like '%°%');
+update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and word_flag = 'N' and type like '%(%';
+update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and type = '[약어]';
+update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and substr(word,1,1) COLLATE utf8_bin > 'z';
+update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and ( mean like '%이름%');
+update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and (word like '%1-%' or word like '%2-%' or word like '%3-%' or word like '%4-%' or word like '%5-%' or 
+					word like '%6-%' or word like '%7-%' or word like '%8-%' or word like '%9-%' or word like '%0-%' or
+                    word like '%-1%' or word like '%-2%' or word like '%-3%' or word like '%-4%' or word like '%-5%' or 
+					word like '%-6%' or word like '%-7%' or word like '%-8%' or word like '%-9%' or word like '%-0%' or
+                    word like '%1 %' or word like '%2 %' or word like '%3 %' or word like '%4 %' or word like '%5 %' or 
+					word like '%6 %' or word like '%7 %' or word like '%8 %' or word like '%9 %' or word like '%0 %'); 
 
-	update dic set del_flag = 'Y'  where kind = 'F' and del_flag = 'N' and word > 'zzz' ;
-	 
-	UPDATE DIC SET WORD_FLAG = 'Y' WHERE kind = 'F' and SPELLING != '*';
-	
-	UPDATE DIC SET WORD_FLAG = 'Y' WHERE kind = 'F' and (KIND,WORD) IN (SELECT DISTINCT 'F', WORD FROM DIC_DAUM_VOCABULARY);
 
-	UPDATE dic SET DEL_FLAG = 'Y'
-	where  kind = 'H'
-	and    word COLLATE utf8_bin like '-%' or word COLLATE utf8_bin like '%-' or word COLLATE utf8_bin like '%.%' or word COLLATE utf8_bin like '%&%' or word COLLATE utf8_bin like '%$%' or
-	        word COLLATE utf8_bin like '"%' or word COLLATE utf8_bin like '(%' or word COLLATE utf8_bin like '''%' OR  word COLLATE utf8_bin like '…%' OR
-			word COLLATE utf8_bin like '%A%' or word COLLATE utf8_bin like '%B%' or word COLLATE utf8_bin like '%C%' or word COLLATE utf8_bin like '%D%' or word COLLATE utf8_bin like '%E%' or
-			word COLLATE utf8_bin like '%F%' or word COLLATE utf8_bin like '%G%' or word COLLATE utf8_bin like '%H%' or word COLLATE utf8_bin like '%I%' or word COLLATE utf8_bin like '%J%' or
-			word COLLATE utf8_bin like '%K%' or word COLLATE utf8_bin like '%L%' or word COLLATE utf8_bin like '%M%' or word COLLATE utf8_bin like '%N%' or word COLLATE utf8_bin like '%O%' or
-			word COLLATE utf8_bin like '%P%' or word COLLATE utf8_bin like '%Q%' or word COLLATE utf8_bin like '%R%' or word COLLATE utf8_bin like '%S%' or word COLLATE utf8_bin like '%T%' or
-			word COLLATE utf8_bin like '%U%' or word COLLATE utf8_bin like '%V%' or word COLLATE utf8_bin like '%W%' or word COLLATE utf8_bin like '%X%' or word COLLATE utf8_bin like '%Y%' or
-		    word COLLATE utf8_bin like '%Z%'
-	;
-
-	UPDATE dic SET DEL_FLAG = 'Y'
-	where  DEL_FLAG = 'N' and kind = 'H'
-	and    (word COLLATE utf8_bin like '%다' or word COLLATE utf8_bin like '%?' or word like '% %') 
-	;
-	 
-	update dic set del_flag = 'Y' where DEL_FLAG = 'N' and kind = 'H' and type != '';
-	
-	UPDATE DIC SET DEL_FLAG= 'Y' WHERE SEQ IN ('701677','785018','1199826','1089285','1202324','1219228','1122195','1150192','1231322','1190929','1266941');
-	
-	INSERT INTO _DIC SELECT MAX(SEQ) FROM DIC WHERE KIND = 'F' GROUP BY WORD HAVING COUNT(*) > 1;
-	UPDATE DIC A SET DEL_FLAG = 'Y' WHERE SEQ IN (SELECT SEQ FROM _DIC) AND DEL_FLAG = 'N';
-
-	UPDATE DIC set spelling = '' WHERE SPELLING = '*';
-
+update dic set del_flag = 'N' where kind = 'H' ;
+update dic set del_flag = 'Y' where kind = 'H' and del_flag = 'N' and right(word,1) = '다' and word like '% %';
+update dic set del_flag = 'Y' where kind = 'H' and del_flag = 'N' and substr(word,1,1) in ('-','''','(','"','1','2','3','4','5','6','7','8','9','0','$','.','%','&','[','/',':');
+update dic set del_flag = 'Y' where kind = 'H' and del_flag = 'N' and (word like '%0%' or word like '%"%' or word like '%&%' or word like '%$%' or word like '%''%' or 
+				word like '%(%' or word like '%,%' or word like '%.%' or word like '%/%' or word like '%?%'or word like '%[%' or word like '%\%%' or
+                word like '%''%' or word like '%.%' or word like '%τ%' or word like '%‘%' or word like '%…%' or word like '%&%' or word like '%°%');
+update dic set del_flag = 'Y' where kind = 'H' and del_flag = 'N' and word_flag = 'N' and type like '%(%';
+update dic set del_flag = 'Y' where kind = 'H' and del_flag = 'N' and ( mean like '%이름%');
+update dic set del_flag = 'Y' where kind = 'H' and del_flag = 'N' and word_flag = 'N' and word like '%A%';
+update dic set del_flag = 'Y' where kind = 'H' and del_flag = 'N' and (word like '%1-%' or word like '%2-%' or word like '%3-%' or word like '%4-%' or word like '%5-%' or 
+					word like '%6-%' or word like '%7-%' or word like '%8-%' or word like '%9-%' or word like '%0-%' or
+                    word like '%-1%' or word like '%-2%' or word like '%-3%' or word like '%-4%' or word like '%-5%' or 
+					word like '%-6%' or word like '%-7%' or word like '%-8%' or word like '%-9%' or word like '%-0%' or
+                    word like '%1 %' or word like '%2 %' or word like '%3 %' or word like '%4 %' or word like '%5 %' or 
+					word like '%6 %' or word like '%7 %' or word like '%8 %' or word like '%9 %' or word like '%0 %'); 
+                    
 SELECT SEQ, SEQ ENTRY_ID, KIND, WORD, MEAN, SPELLING, HANMUN, TYPE, TENSE, ORD
 FROM (
-SELECT SEQ, SEQ ENTRY_ID, KIND, WORD, MEAN, SPELLING, HANMUN, TYPE, replace(replace(TENSE,',',' , '),'^',' ^ ') TENSE, ORD, WORD_FLAG, RAND() RD
+SELECT SEQ, SEQ ENTRY_ID, KIND, lower(case when right(word,1) in ('1') then left(word, length(word) - 1) else word end) word, MEAN, SPELLING, HANMUN, TYPE, replace(replace(TENSE,',',' , '),'^',' ^ ') TENSE, ORD, WORD_FLAG, RAND() RD
   FROM dic 
   WHERE DEL_FLAG = 'N'
   ORDER BY KIND DESC, WORD_FLAG DESC, RD) A
-LIMIT 200000;             
+LIMIT 250000;   
 
++ dic_mean
 
 SELECT A.SEQ, B.SEQ, A.TYPE, A.MEAN, A.NUM
   FROM dic_mean A, DIC B
