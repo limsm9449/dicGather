@@ -6,20 +6,24 @@ word like '%\%%';
 ;
 
 update dic set del_flag = 'N' where kind = 'F' ;
-update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and substr(word,1,1) in ('-','''','(','"','1','2','3','4','5','6','7','8','9','0','$','.','%','&','[','/',':');
-update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and (word like '%0%' or word like '%"%' or word like '%&%' or word like '%$%' or word like '%''%' or 
+update dic set del_flag = 'Y' where kind = 'F' and word_flag = 'N' and del_flag = 'N' and substr(word,1,1) in ('-','''','(','"','1','2','3','4','5','6','7','8','9','0','$','.','%','&','[','/',':');
+update dic set del_flag = 'Y' where kind = 'F' and word_flag = 'N' and del_flag = 'N' and (word like '%0%' or word like '%"%' or word like '%&%' or word like '%$%' or word like '%''%' or 
 				word like '%(%' or word like '%,%' or word like '%.%' or word like '%/%' or word like '%?%'or word like '%[%' or word like '%\%%' or
                 word like '%''%' or word like '%.%' or word like '%τ%' or word like '%‘%' or word like '%…%' or word like '%&%' or word like '%°%');
-update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and word_flag = 'N' and type like '%(%';
+update dic set del_flag = 'Y' where kind = 'F' and word_flag = 'Y' and del_flag = 'N' and (word like '%0%' or word like '%"%' or word like '%&%' or word like '%$%' or word like '%''%' or 
+				word like '%(%' or word like '%,%' or word like '%.%' or word like '%/%' or word like '%?%'or word like '%[%' or word like '%\%%' or
+                word like '%''%' or word like '%.%' or word like '%τ%' or word like '%‘%' or word like '%…%' or word like '%&%' or word like '%°%');
+update dic set del_flag = 'Y' where kind = 'F' and word_flag = 'N' and del_flag = 'N' and type like '%(%';
 update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and type = '[약어]';
 update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and substr(word,1,1) COLLATE utf8_bin > 'z';
 update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and ( mean like '%이름%');
-update dic set del_flag = 'Y' where kind = 'F' and del_flag = 'N' and (word like '%1-%' or word like '%2-%' or word like '%3-%' or word like '%4-%' or word like '%5-%' or 
+update dic set del_flag = 'Y' where kind = 'F' and word_flag = 'N' and del_flag = 'N' and (word like '%1-%' or word like '%2-%' or word like '%3-%' or word like '%4-%' or word like '%5-%' or 
 					word like '%6-%' or word like '%7-%' or word like '%8-%' or word like '%9-%' or word like '%0-%' or
                     word like '%-1%' or word like '%-2%' or word like '%-3%' or word like '%-4%' or word like '%-5%' or 
 					word like '%-6%' or word like '%-7%' or word like '%-8%' or word like '%-9%' or word like '%-0%' or
                     word like '%1 %' or word like '%2 %' or word like '%3 %' or word like '%4 %' or word like '%5 %' or 
 					word like '%6 %' or word like '%7 %' or word like '%8 %' or word like '%9 %' or word like '%0 %'); 
+update dic set del_flag = 'Y' where kind = 'F' and word_flag = 'Y' and del_flag = 'N' and (word like '%0%' or word like '"%' or word like '-%');
 
 
 update dic set del_flag = 'N' where kind = 'H' ;
