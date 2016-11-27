@@ -385,7 +385,7 @@ public class Query {
 	public static String getDicSampleOrderQuery() {
 		String sql = "";
 		
-		sql += "SELECT * FROM DIC_SAMPLE WHERE SEQ IN (SELECT SEQ FROM _DIC_SAMPLE) ORDER BY MEAN_SAMPLE_FLAG, LANG_FOREIGN";
+		sql += "SELECT * FROM DIC_SAMPLE ORDER BY LANG_FOREIGN";
 		
 		return sql;
 	}
@@ -404,6 +404,22 @@ public class Query {
 		String sql = "";
 		
 		sql += "INSERT INTO T_TENSE (ENTRY_ID, TENSE) VALUES(?, ?)";
+		
+		return sql;
+	}
+	
+	public static String updDicSampleWordCountrQuery() {
+		String sql = "";
+		sql += "UPDATE DIC_SAMPLE SET WORD_CNT = ? WHERE SEQ = ? ";
+
+		return sql;
+	}
+	
+
+	public static String getDicSample() {
+		String sql = "";
+		
+		sql += "SELECT * FROM DIC_SAMPLE";
 		
 		return sql;
 	}

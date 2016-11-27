@@ -216,7 +216,7 @@ public class MakeOther {
 	}
 	
 	public static void updDicSampleOrd() throws Exception {
-		int cnt = 0;
+		int cnt = 1;
 		int ord = 1;
 		
 		PreparedStatement psUpdDicOrd = conn.prepareStatement(Query.updDicSampleOrderQuery());
@@ -227,11 +227,13 @@ public class MakeOther {
 		while ( rs.next() ) {
 			String seq = rs.getString("SEQ");
 			
-			psUpdDicOrd.setInt(1, cnt + 1);
+			psUpdDicOrd.setInt(1, cnt);
 			psUpdDicOrd.setString(2, seq);
 			psUpdDicOrd.executeUpdate();
-    		if ( cnt++ % Constant.findDicOrdCount == 0 ) {
-    			System.out.println("Foriegn : " + (cnt++ / Constant.findDicOrdCount));
+			
+			cnt++;
+    		if ( cnt % 1000 == 0 ) {
+    			System.out.println("Count : " + (cnt / 1000));
     		}
 		}
 		
