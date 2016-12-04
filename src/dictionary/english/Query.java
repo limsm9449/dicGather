@@ -385,7 +385,7 @@ public class Query {
 	public static String getDicSampleOrderQuery() {
 		String sql = "";
 		
-		sql += "SELECT * FROM DIC_SAMPLE ORDER BY LANG_FOREIGN";
+		sql += "SELECT * FROM DIC_SAMPLE ORDER BY MEAN_SAMPLE_FLAG, LANG_FOREIGN";
 		
 		return sql;
 	}
@@ -420,6 +420,23 @@ public class Query {
 		String sql = "";
 		
 		sql += "SELECT * FROM DIC_SAMPLE";
+		
+		return sql;
+	}
+	
+	
+	public static String updDicConversationWordCountrQuery() {
+		String sql = "";
+		sql += "UPDATE DIC_CONVERSATION SET WORD_CNT = ? WHERE SEQ = ? ";
+
+		return sql;
+	}
+	
+
+	public static String getDicConversation() {
+		String sql = "";
+		
+		sql += "SELECT * FROM DIC_CONVERSATION";
 		
 		return sql;
 	}

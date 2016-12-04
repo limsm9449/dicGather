@@ -88,18 +88,43 @@ SELECT A.SEQ, B.SEQ, A.SAMPLE_SEQ
 	
 	update dic_sample set mean_sample_flag = 'Y' where seq in ( select sample_seq from dic_mean_sample);
 	
-	delete from _dic_sample;
+	delete from dic_sample30000;
 
-	insert into _dic_sample
-	select SEQ
-	from (select SEQ, LANG_FOREIGN, LANG_HAN, mean_sample_flag, rand() rd from dic_sample where del_flag = 'N' ) a
+	insert into dic_sample30000
+	select SEQ, LANG_FOREIGN, LANG_HAN, word_cnt
+	from (select SEQ, LANG_FOREIGN, LANG_HAN, mean_sample_flag, rand() rd,word_cnt
+            from dic_sample 
+            where del_flag = 'N'
+            and word_cnt >= 5
+            and lang_foreign not like '"%' and lang_foreign not like '''%' and lang_foreign not like '(%' and lang_foreign not like '“%' and lang_foreign not like '￡%'
+            and lang_foreign not like '1%' and lang_foreign not like '2%' and lang_foreign not like '3%' and lang_foreign not like '4%' and lang_foreign not like '5%'
+            and lang_foreign not like '6%' and lang_foreign not like '7%' and lang_foreign not like '8%' and lang_foreign not like '9%' and lang_foreign not like '0%'
+            and lang_foreign not like '”%' and lang_foreign not like '<%' and lang_foreign not like '?%' and lang_foreign not like '비유%' and lang_foreign not like '$%'
+			and lang_foreign not like '격식%' and lang_foreign not like '英%' and lang_foreign not like '…%' and lang_foreign not like '-%' and lang_foreign not like '美%'
+            and lang_foreign not like '‘%' ) a
 	order by mean_sample_flag desc, rd
-	limit 150000;
-	
-select SEQ, LANG_FOREIGN, LANG_HAN, ord
-from dic_sample 
-where seq in ( select seq from _dic_sample);
+	limit 300000;
     
+    insert into dic_sample30000 (LANG_FOREIGN, LANG_HAN, word_cnt)
+	select distinct lang_foreign, lang_han, word_cnt from dic_conversation;
+	
+	update dic_conversation a
+	set sample_seq = (select max(seq) from dic_sample30000 where lang_foreign = a.lang_foreign);
+	    
+	select * from dic_conversation;
+
+/* dic_sample */
+SELECT SEQ,  replace(LANG_FOREIGN, '"', '''') LANG_FOREIGN,  replace(LANG_HAN, '"', '''') LANG_HAN, @RNUM1 := @RNUM1 + 1 AS ORD, word_cnt
+FROM (
+	SELECT *
+	FROM   dic_sample30000
+	order  by lang_foreign ) t, ( SELECT @RNUM1 := 0 ) R;
+    
+    
+select 'insert into dic_naver (code, lang_foreign, lang_han) values('''||code||''','''||replace(sentence1,'''','''''')||''','''||replace(sentence2,'''','''''')||''');' from dic_category
+    
+/* dic_category */
+select seq, code, sample_seq from dic_conversation;    
     
 + DAUM 사전 ----------------------------- 
 SELECT if(KIND = 'TOEIC','W01',

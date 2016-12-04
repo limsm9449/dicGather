@@ -30,7 +30,7 @@ public class MakeWordCount {
 			
             conn.setAutoCommit(false);
             
-            updDicOrd();
+            updDicOrd2();
             
             conn.commit();
 				
@@ -54,6 +54,34 @@ public class MakeWordCount {
 
 		Statement s = conn.createStatement();
 		s.executeQuery(Query.getDicSample());
+		ResultSet rs = s.getResultSet();
+		while ( rs.next() ) {
+			String seq = rs.getString("SEQ");
+			String foreign = rs.getString("LANG_FOREIGN");
+			
+			psUpd.setInt(1, getBlankCount(foreign));
+			psUpd.setString(2, seq);
+			psUpd.executeUpdate();
+    		if ( cnt++ % 1000 == 0 ) {
+    			System.out.println("count : " + (cnt++ / 1000));
+    		}
+		}
+
+		conn.commit();
+		
+		rs.close();
+		psUpd.close();
+		s.close();
+	}
+	
+	public static void updDicOrd2() throws Exception {
+		int cnt = 0;
+		int ord = 1;
+		
+		PreparedStatement psUpd = conn.prepareStatement(Query.updDicConversationWordCountrQuery());
+
+		Statement s = conn.createStatement();
+		s.executeQuery(Query.getDicConversation());
 		ResultSet rs = s.getResultSet();
 		while ( rs.next() ) {
 			String seq = rs.getString("SEQ");
