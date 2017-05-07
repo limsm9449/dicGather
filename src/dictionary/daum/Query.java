@@ -46,6 +46,7 @@ public class Query {
 		return sql;
 	}
 	
+	/*
 	public static String getDelFindWordQuery() {
 		String sql = "";
 		
@@ -53,6 +54,7 @@ public class Query {
 		
 		return sql;
 	}
+	*/
 	
 	public static String getDelVocabularyQuery() {
 		String sql = "";
@@ -62,6 +64,7 @@ public class Query {
 		return sql;
 	}
 	
+	/*
 	public static boolean isExistCategory(Connection conn, String categoryId) throws Exception  {
 		boolean rtn = false;
 	
@@ -84,6 +87,7 @@ public class Query {
 		
 		return rtn;
 	}
+	*/
 	
 	public static HashMap getCategoryInfo(Connection conn, String categoryId) throws Exception  {
 		HashMap rtn = new HashMap();
@@ -106,6 +110,14 @@ public class Query {
 		ps.close();
 		
 		return rtn;
+	}
+	
+	public static String getInsNaverConversation() {
+		String sql = "";
+		
+		sql += "INSERT INTO NAVER_CONVERSATION(KIND, CATEGORY, ORD, SENTENCE1, SENTENCE2) VALUES(?, ?, ?, ?, ?)";
+		
+		return sql;
 	}
 	
 }

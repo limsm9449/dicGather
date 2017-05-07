@@ -1,11 +1,19 @@
 package dictionary.conversation;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import dictionary.daum.Query;
+
 public class Conversation {
+	private static Connection conn;
+	
 	static String domainUrl = "http://phrasebook.naver.com/";
 
 	public static void main(String[] args) {
@@ -15,7 +23,14 @@ public class Conversation {
 		//System.setProperty("http.proxyPort", "8080");
 
 		try {
+			Class.forName("org.sqlite.JDBC");
+			conn = DriverManager.getConnection("jdbc:sqlite:d:/eng_db.db");
+			
+			conn.setAutoCommit(false);
+			
 			gatherConversationLarge("http://phrasebook.naver.com/detail.nhn?targetLanguage=en");
+			
+			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,7 +88,11 @@ public class Conversation {
 		Document doc = Jsoup.connect(url).userAgent("Mozilla/5.0").timeout(10000).get();
 		Elements a_es = doc.select("div");
 		// System.out.println(a_es);
-		int idx = 1;
+		
+		PreparedStatement psIns = conn.prepareStatement(Query.getInsNaverConversation());
+		
+		int ord = 1;
+		int idx = 0;
 		for (Element a_es_r : a_es) {
 			if (a_es_r.attr("class").equals("dic_cont")) {
 				// 대화
@@ -82,8 +101,13 @@ public class Conversation {
 				for (Element li_es_r : li_es) {
 					if (li_es_r.attr("class").indexOf("cont_info") > -1
 							&& li_es_r.attr("class").indexOf("unisex2") < 0) {
-						System.out.println(kind + " | " + idx++ + " | " + ab + ". " + li_es_r.child(1).child(0).text()
-								+ " : " + li_es_r.child(0).text());
+						idx = 1;
+						psIns.setString(idx++, "en");
+						psIns.setString(idx++, kind);
+						psIns.setInt(idx++, ord++);
+						psIns.setString(idx++, ab + ". " + li_es_r.child(1).child(0).text());
+						psIns.setString(idx++, li_es_r.child(0).text());
+						psIns.executeUpdate();
 					}
 					ab = ("A".equals(ab) ? "B" : "A");
 				}
@@ -93,8 +117,13 @@ public class Conversation {
 				for (Element li_es_r : li_es) {
 					if (li_es_r.attr("class").indexOf("cont_info") > -1
 							&& li_es_r.attr("class").indexOf("unisex2") < 0) {
-						System.out.println(kind + " | " + idx++ + " | " + li_es_r.child(1).child(0).text() + " : "
-								+ li_es_r.child(0).text());
+						idx = 1;
+						psIns.setString(idx++, "en");
+						psIns.setString(idx++, kind);
+						psIns.setInt(idx++, ord++);
+						psIns.setString(idx++, li_es_r.child(1).child(0).text());
+						psIns.setString(idx++, li_es_r.child(0).text());
+						psIns.executeUpdate();
 					}
 				}
 			}
