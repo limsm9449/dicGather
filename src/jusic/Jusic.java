@@ -24,10 +24,10 @@ public class Jusic {
 		//System.out.println("Jusic Start");
 
 		try {
-			jusic100_1();
-			jusic100_2();
+			//jusic100_1();
+			//jusic100_2();
 			//upjong();
-			//theme();
+			theme();
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,7 +77,8 @@ public class Jusic {
 		for (Element e_eAs : eAs) {
 			if ( getUrlParameter(e_eAs.attr("href"), "no") != "" ) {
 				//System.out.println("<option value='" + getUrlParameter(e_eAs.attr("href"), "no") + "'>" + e_eAs.text() + "</option>");
-				upjongDetail(getUrlParameter(e_eAs.attr("href"), "no"));
+				//upjongDetail(getUrlParameter(e_eAs.attr("href"), "no"));
+				System.out.println("\"" + e_eAs.text() + ":" + getUrlParameter(e_eAs.attr("href"), "no") + "\",");
 			}
 		}
 	}
@@ -105,7 +106,8 @@ public class Jusic {
 		for (Element e_eAs : eAs) {
 			if ( getUrlParameter(e_eAs.attr("href"), "no") != "" ) {
 				//System.out.println("<option value='" + getUrlParameter(e_eAs.attr("href"), "no") + "'>" + e_eAs.text() + "</option>");
-				themeDetail(getUrlParameter(e_eAs.attr("href"), "no"));
+				//themeDetail(getUrlParameter(e_eAs.attr("href"), "no"));
+				System.out.println("\"" + e_eAs.text() + ":" + getUrlParameter(e_eAs.attr("href"), "no") + "\",");
 			}
 		}
 	}
