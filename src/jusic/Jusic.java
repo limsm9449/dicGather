@@ -24,10 +24,34 @@ public class Jusic {
 		//System.out.println("Jusic Start");
 
 		try {
-			//jusic100_1();
+			/* 코스피 */
+			/*
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page=1");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page=2");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page=3");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page=4");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page=5");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page=6");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page=7");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page=8");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page=9");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=0&page=10");
+			*/
+			
+			/* 코스닥 */
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=1&page=1");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=1&page=2");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=1&page=3");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=1&page=4");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=1&page=5");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=1&page=6");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=1&page=7");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=1&page=8");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=1&page=9");
+			jusicKospi("https://finance.naver.com/sise/sise_market_sum.nhn?sosok=1&page=10");
 			//jusic100_2();
 			//upjong();
-			theme();
+			//theme();
 	        
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -36,25 +60,8 @@ public class Jusic {
 		//System.out.println("Jusic End");
 	}
 
-	public static void jusic100_1() throws Exception {
-		String url = "https://finance.naver.com/sise/sise_market_sum.nhn";
-
-		Document doc = Jsoup.connect(url).timeout(10000).get();
-		//System.out.println(doc);
-		Elements eTables = doc.select("table");
-		for (Element e_eTables : eTables) {
-			if ("type_2".equals(e_eTables.attr("class"))) {
-				Elements tTds = e_eTables.select("tbody tr td .tltle");
-				for (Element e_tTds : tTds) {
-					System.out.println("tJusics[idx++] = lfn_createJusicInfo('" + e_tTds.text() + "', '" + getUrlParameter(e_tTds.attr("href"), "code") + "', 0, 0);");
-				}
-			}
-		}
-	}
-
-	public static void jusic100_2() throws Exception {
-		String url = "https://finance.naver.com/sise/sise_market_sum.nhn?&page=2";
-
+	public static void jusicKospi(String url) throws Exception {
+		System.out.println(url);
 		Document doc = Jsoup.connect(url).timeout(10000).get();
 		//System.out.println(doc);
 		Elements eTables = doc.select("table");
